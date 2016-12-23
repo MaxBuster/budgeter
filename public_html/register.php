@@ -3,7 +3,7 @@
  * User: Max Buster
  * Date: 12/21/2016
  */
-require "../db_utils/connect.inc.php";
+require "../resources/library/connect.inc.php";
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
@@ -28,9 +28,11 @@ $connection->close();
     <body>
         <h1>Register</h1>
         <form method="POST">
-            Username:<input type="text" name="username">
-            Password:<input type="password" name="password">
+            Username:<input type="text" name="username"><br>
+            Password:<input type="password" name="password"><br>
             <input type="submit">
         </form>
+
+        <a href="login.php">Already registered? Login here</a>
     </body>
 </html>
