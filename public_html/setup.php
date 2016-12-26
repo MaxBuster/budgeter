@@ -20,6 +20,8 @@ if (isset($_POST['monthly_budget'])) {
     $stmt->execute();
 
     $stmt->close();
+
+    echo 'Monthly budget set to: ' . $monthly_budget;
 } else if (isset($_POST['category']) &&
     isset($_POST['category_budget'])){
 
@@ -31,6 +33,8 @@ if (isset($_POST['monthly_budget'])) {
     $stmt->execute();
 
     $stmt->close();
+
+    echo 'Category: ' . $category . ' set to monthly cost of: ' . $category_budget;
 }
 
 $connection->close();
