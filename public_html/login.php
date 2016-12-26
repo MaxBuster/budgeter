@@ -1,50 +1,46 @@
-<?php
-/**
- * User: Max Buster
- * Date: 12/21/2016
- */
-require "../resources/library/connect.inc.php";
-
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $hashed_pass = md5($_POST['password']);
-
-    $stmt = $connection->prepare('SELECT id FROM users WHERE username=? AND password=?');
-    $stmt->bind_param('ss', $username, $hashed_pass);
-    $stmt->execute();
-    $stmt->bind_result($user_id);
-    $stmt->fetch();
-
-    if ($user_id == false) {
-        echo "Wrong username or password";
-    } else {
-        session_start();
-        $_SESSION['user_id'] = $user_id;
-        header('Location: setup.php');
-        // TODO redirect to setup or new transaction
-        // TODO add an sid to user db and browser
-    }
-
-    $stmt->close();
-}
-
-$connection->close();
-
-?>
-
 <html>
+
 <head>
-    <title>Login</title>
+    <title>Login | Budgeter</title>
+    <!-- Include jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- Local style -->
+    <link rel="stylesheet" href="css/forms.css">
+    <!-- Local scripts -->
+    <script type="text/javascript" src="js/submit_login_form.js"></script>
 </head>
 
 <body>
-<h1>Login</h1>
-<form method="POST">
-    Username:<input type="text" name="username"><br>
-    Password:<input type="password" name="password"><br>
-    <input type="submit">
+<div class="container">
+    <h1 class="text-center">Login</h1>
 
-    <a href="register.php">New user? Register here</a>
-</form>
+    <form method="post" role="form" class="form-horizontal" id="form">
+        <div class="form-group">
+            <label for="username" class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-10">
+                <input name="username" id="username" type="text" maxlength="255"  class="form-control" placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input name="password" id="password" type="password" maxlength="255" class="form-control" placeholder="Password">
+            </div>
+        </div>
+        <div id="warning" class="alert alert-danger" hidden>
+            <p class="text-center" id="warning-message"></p>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="submit" class="btn btn-primary btn-block" value="Login" id="login">
+            </div>
+        </div>
+    </form>
+    <a href="register.php"><p class="text-center">Not registered? Sign up here</p></a>
+</div>
 </body>
+
 </html>

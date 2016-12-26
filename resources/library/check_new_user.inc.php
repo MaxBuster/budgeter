@@ -25,9 +25,9 @@ function username_is_unique($username) {
 }
 
 function username_is_valid($username) {
-
+    return true;
 }
 
 function password_is_valid($username) {
-
+    return true;
 }

@@ -11,7 +11,7 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
 
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $hashed_pass = md5($password);
+    $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
 
     if (!username_is_unique($username)) {
         echo json_encode(array('registered'=>false, 'error'=>'Username already exists'));
@@ -32,7 +32,9 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
     $stmt->close();
     $connection->close();
 
-    echo json_encode(array('registered' => true)); // TODO redirect to login
+    echo json_encode(array('registered' => true));
+    exit();
 } else {
     echo json_encode(array('registered'=>false, 'error'=>'Username or password not set'));
+    exit();
 }
