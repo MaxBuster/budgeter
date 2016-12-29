@@ -13,7 +13,7 @@ $(document).ready(function(){
                 console.log(response);
                 var json_response = $.parseJSON(response);
                 if (json_response.authenticated == true) {
-                    // TODO redirect
+                    window.location.href = "new_entry.php";
                 } else {
                     $('#warning-message').text(json_response.error);
                     $('#warning').show(1000);

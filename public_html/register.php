@@ -1,3 +1,8 @@
+<?php
+$unlocked_page = true;
+include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirect.inc.php';
+?>
+
 <html>
 
   <head>
@@ -14,6 +19,7 @@
   </head>
 
   <body>
+  <?php include '../resources/templates/nav.inc.php' ?>
     <div class="container">
       <h1 class="text-center">Register</h1>
     

@@ -13,7 +13,7 @@ $(document).ready(function(){
                 console.log(response);
                 var json_response = $.parseJSON(response);
                 if (json_response.registered == true) {
-                    // TODO set id, sid, redirect
+                    window.location.href = "setup.php";
                 } else {
                     $('#warning-message').text(json_response.error);
                     $('#warning').show(1000);

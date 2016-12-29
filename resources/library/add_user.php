@@ -32,6 +32,8 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
     $stmt->close();
     $connection->close();
 
+    session_start();
+    $_SESSION['username'] = $username;
     echo json_encode(array('registered' => true));
     exit();
 } else {

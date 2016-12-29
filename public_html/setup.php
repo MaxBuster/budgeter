@@ -1,64 +1,111 @@
 <?php
-/**
- * User: Max Buster
- * Date: 12/21/2016
- */
-require "../resources/library/connect.inc.php";
-
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-}
-$user_id = $_SESSION['user_id'];
-
-
-if (isset($_POST['monthly_budget'])) {
-    $monthly_budget = $_POST['monthly_budget'];
-
-    $stmt = $connection->prepare('INSERT INTO budget (user_id, amount) VALUES (?, ?)');
-    $stmt->bind_param('ii', $user_id, $monthly_budget);
-    $stmt->execute();
-
-    $stmt->close();
-
-    echo 'Monthly budget set to: ' . $monthly_budget;
-} else if (isset($_POST['category']) &&
-    isset($_POST['category_budget'])){
-
-    $category = $_POST['category'];
-    $category_budget = $_POST['category_budget'];
-
-    $stmt = $connection->prepare('INSERT INTO categories (user_id, category, amount) VALUES (?, ?, ?)');
-    $stmt->bind_param('isi', $user_id, $category, $category_budget);
-    $stmt->execute();
-
-    $stmt->close();
-
-    echo 'Category: ' . $category . ' set to monthly cost of: ' . $category_budget;
-}
-
-$connection->close();
+include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirect.inc.php';
 ?>
 
 <html>
-    <head>
-        <title>Setup</title>
-    </head>
 
-    <body>
-        <h1>Setup</h1>
+  <head>
+    <title>Setup | Budgeter</title>
+    <!-- Include jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    
+    <style>
+      .container {
+        max-width: 500px;
+        padding: 15px;
+        margin: 0 auto;
+      }
+      .panel {
+        max-height: 200px;
+        overflow: scroll;
+      }
+      .set_budget {
+        border-style: solid;
+        border-width: 2px;
+      }
+    </style>
+    
+    <script>
+    $(document).ready(function(){
+      $(".toggler").click(function(){
+        $(".setup_container").toggle(1000);
+      });
+    });
+    </script>
+  </head>
 
-        <h2>Monthly alloted amount</h2>
-        <form method="post">
-            Monthly Budget:<input type="text" name="monthly_budget"><br>
-            <input type="submit">
-        </form>
+  <body>
+  <?php include '../resources/templates/nav.inc.php' ?>
+    <div class="container">
+      <h1 class="text-center">Setup</h1>
+      
+      <div id="monthly_budget_container">
+        <h2><a class="toggler">
+          <span class="glyphicon glyphicon-menu-down"></span>
+          Set Budget
+        </a></h2>
+        
+        <hr>
+        
+        <div class="setup_container">
+          <form method="post" role="form" class="form-horizontal">
+            <div class="form-group">
+                <label for="monthly_budget" class="col-sm-4 col-form-label">Monthly Budget</label>
+                <div class="col-sm-8">
+                  <input name="monthly_budget" id="monthly_budget" type="text" maxlength="255"  class="form-control" placeholder="Monthly Budget">
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="submit" class="btn btn-primary btn-block" value="Set Budget" id="set_budget">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div id="category_container">
+        <h2><a class="toggler">
+          <span class="glyphicon glyphicon-menu-down"></span>
+          Set Categories
+        </a></h2>
+        
+        <hr>
+        <div class="setup_container" hidden>
+          <div class="panel panel-default">
+            <table class="table table-striped pre-scrollable">
+              <tr>
+                <th>Category</th>
+                <th>Budget</th>
+              </tr>
+            </table>
+          </div>
+          
+          <form method="post" role="form" class="form-horizontal">
+            <div class="form-group">
+                <label for="category" class="col-sm-4 col-form-label">Category Name</label>
+                <div class="col-sm-8">
+                  <input name="category" id="category" type="text" maxlength="255"  class="form-control" placeholder="Category Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category_budget" class="col-sm-4 col-form-label">Category Budget</label>
+                <div class="col-sm-8">
+                  <input name="category_budget" id="category_budget" type="text" maxlength="255"  class="form-control" placeholder="Category Budget">
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input type="submit" class="btn btn-primary btn-block" value="Set Category" id="set_category">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 
-        <h2>Monthly breakdown</h2>
-        <form method="post">
-            Category:<input type="text" name="category"><br>
-            Monthly Amount:<input type="text" name="category_budget"><br>
-            <input type="submit">
-        </form>
-    </body>
 </html>

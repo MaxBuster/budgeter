@@ -17,6 +17,7 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
         session_start();
         $_SESSION['username'] = $username;
         echo json_encode(array('authenticated' => true));
+        // TODO add where to redirect to
     } else {
         echo json_encode(array('authenticated' => false, 'error'=>'Incorrect username/password'));
     }
