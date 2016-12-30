@@ -11,11 +11,11 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $authenticated = check_credentials($username, $password);
+    $credentials = check_credentials($username, $password);
 
-    if ($authenticated) {
+    if ($credentials != null) {
         session_start();
-        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $credentials;
         echo json_encode(array('authenticated' => true));
         // TODO add where to redirect to
     } else {
@@ -31,19 +31,19 @@ if (isset($_POST['username']) && isset($_POST['password']) &&
 function check_credentials($input_username, $input_password) {
     global $connection;
 
-    $stmt = $connection->prepare('SELECT password FROM users WHERE username = ?');
+    $stmt = $connection->prepare('SELECT id, password FROM users WHERE username = ?');
     $stmt->bind_param('s', $input_username);
 
     $stmt->execute();
-    $stmt->bind_result($hashed_password);
+    $stmt->bind_result($id, $hashed_password);
     $stmt->fetch();
 
     // TODO check if result is empty
     if (password_verify($input_password, $hashed_password)) {
         $stmt->close();
-        return true;
+        return $id;
     }  else {
         $stmt->close();
-        return false;
+        return null;
     }
 }

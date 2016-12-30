@@ -3,3 +3,11 @@
     padding: 15px;
     margin: 0 auto;
 }
+.panel {
+    max-height: 200px;
+    overflow: scroll;
+}
+.set_budget {
+    border-style: solid;
+    border-width: 2px;
+}

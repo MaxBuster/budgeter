@@ -1,5 +1,6 @@
 <?php
 include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirect.inc.php';
+include_once "../resources/library/get_categories.php";
 ?>
 
 <html>
@@ -11,24 +12,12 @@ include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirec
     <!-- Include bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
-    <style>
-      .container {
-        max-width: 500px;
-        padding: 15px;
-        margin: 0 auto;
-      }
-      .panel {
-        max-height: 200px;
-        overflow: scroll;
-      }
-      .set_budget {
-        border-style: solid;
-        border-width: 2px;
-      }
-    </style>
-    
-    <script>
+      <!-- Local style -->
+      <link rel="stylesheet" href="css/forms.css">
+      <!-- Local scripts -->
+      <script src="js/submit_new_category_form.js"></script>
+
+      <script>
     $(document).ready(function(){
       $(".toggler").click(function(){
         $(".setup_container").toggle(1000);
@@ -51,7 +40,7 @@ include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirec
         <hr>
         
         <div class="setup_container">
-          <form method="post" role="form" class="form-horizontal">
+          <form method="post" role="form" class="form-horizontal budget-form">
             <div class="form-group">
                 <label for="monthly_budget" class="col-sm-4 col-form-label">Monthly Budget</label>
                 <div class="col-sm-8">
@@ -81,10 +70,18 @@ include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirec
                 <th>Category</th>
                 <th>Budget</th>
               </tr>
+
+              <?php
+              foreach ($names_to_amounts as $category=>$amount) { ?>
+                <tr>
+                    <td><?php echo $category; ?></td>
+                    <td><?php echo $amount; ?></td>
+                </tr>
+              <?php } ?>
             </table>
           </div>
           
-          <form method="post" role="form" class="form-horizontal">
+          <form method="post" role="form" class="form-horizontal category-form">
             <div class="form-group">
                 <label for="category" class="col-sm-4 col-form-label">Category Name</label>
                 <div class="col-sm-8">
