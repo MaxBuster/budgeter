@@ -3,10 +3,11 @@
  * User: Max Buster
  * Date: 12/29/2016
  */
-require_once "connect.inc.php";
+require "connect.inc.php";
 
 $names_to_amounts = [];
 $ids_to_names = [];
+$sum_of_categories = 0;
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -20,6 +21,7 @@ if (isset($_SESSION['user_id'])) {
     while ($stmt->fetch()) {
         $names_to_amounts[$category] = $amount;
         $ids_to_names[$id] = $category;
+        $sum_of_categories += $amount;
     }
 
     $stmt->close();

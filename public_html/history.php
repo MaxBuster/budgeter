@@ -4,6 +4,7 @@
  * Date: 12/28/2016
  */
 include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirect.inc.php';
+include "../resources/library/get_entries.php";
 ?>
 
 <html>
@@ -32,6 +33,16 @@ include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirec
                 <th>Amount</th>
                 <th>Description</th>
             </tr>
+            <?php
+                foreach ($entries as $value) {
+            ?>
+            <tr>
+                <td><?php echo $value[0]; ?></td>
+                <td><?php echo $value[1]; ?></td>
+                <td><?php echo $value[2]; ?></td>
+                <td><?php echo $value[3]; ?></td>
+            </tr>
+            <?php } ?>
         </table>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
 include realpath($_SERVER["DOCUMENT_ROOT"]).'/budgeter/resources/library/redirect.inc.php';
+include_once "../resources/library/get_budget.php";
 include_once "../resources/library/get_categories.php";
 ?>
 
@@ -15,8 +16,9 @@ include_once "../resources/library/get_categories.php";
       <!-- Local style -->
       <link rel="stylesheet" href="css/forms.css">
       <!-- Local scripts -->
+      <script src="js/submit_budget_form.js"></script>
       <script src="js/submit_new_category_form.js"></script>
-
+      <script src="js/canvasjs.min.js"></script>
       <script>
     $(document).ready(function(){
       $(".toggler").click(function(){
@@ -40,6 +42,7 @@ include_once "../resources/library/get_categories.php";
         <hr>
         
         <div class="setup_container">
+            <h2 id="budget" class="text-center" <?php if (!isset($budget)) echo "hidden"; ?>><?php if (isset($budget)) echo "Current: $".$budget; ?></h2>
           <form method="post" role="form" class="form-horizontal budget-form">
             <div class="form-group">
                 <label for="monthly_budget" class="col-sm-4 col-form-label">Monthly Budget</label>
@@ -80,6 +83,8 @@ include_once "../resources/library/get_categories.php";
               <?php } ?>
             </table>
           </div>
+
+          <h3 class="text-center"><?php echo "$$sum_of_categories budgeted out of $$budget"; ?></h3>
           
           <form method="post" role="form" class="form-horizontal category-form">
             <div class="form-group">
